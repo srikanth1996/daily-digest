@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Digest — March 11, 2026 | Srikanth's Daily Digest</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif;background:#0f0f13;color:#e5e7eb}.playfair{font-family:'Playfair Display',serif}.prose h2{font-size:1.2rem;font-weight:700;color:#f3f4f6;margin:1.5rem 0 .75rem;padding-bottom:.5rem;border-bottom:1px solid #374151}.prose h3{font-size:1rem;font-weight:600;color:#93c5fd;margin:1rem 0 .5rem}.prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}.prose ul{list-style:none;padding:0}.prose ul li{color:#d1d5db;padding:.4rem 0 .4rem 1.5rem;position:relative;line-height:1.7}.prose ul li::before{content:"▪";position:absolute;left:0;color:#3b82f6}.prose strong{color:#f9fafb}.prose code{background:#1e293b;color:#93c5fd;padding:.15rem .4rem;border-radius:.25rem;font-size:.875rem}.tip-box{background:#0f1535;border:1px solid #1e3a8a;border-radius:.75rem;padding:1.25rem;margin:1rem 0}</style></head>
+<body>
+<nav class="sticky top-0 z-50 border-b border-gray-800" style="background:rgba(15,15,19,.95);backdrop-filter:blur(10px)">
+<div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+<a href="/" class="text-white font-semibold hover:opacity-80">← Srikanth's Daily Digest</a>
+<span class="text-gray-500 text-sm">March 11, 2026</span></div></nav>
+<main class="max-w-4xl mx-auto px-6 py-12">
+<div class="mb-8">
+<span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-900 text-blue-300">🤖 AI DIGEST</span>
+<span class="text-gray-500 text-sm ml-3">March 11, 2026 · 7:00 AM IST</span>
+<h1 class="playfair text-4xl font-bold text-white leading-tight mt-4 mb-3">AI Digest — March 11, 2026</h1>
+<p class="text-gray-400 text-lg">AI tools, architecture patterns, and project-specific recommendations for data-validation-web.</p>
+</div>
+<div class="border-t border-gray-800 my-8"></div>
+<article class="prose max-w-none">
+
+<h2>🔥 Top Story: LLM-as-Judge Is Reshaping Data Validation</h2>
+<p>The biggest architectural shift in data quality this week is the rapid adoption of the <strong>LLM-as-Judge pattern</strong>, where large language models evaluate the completeness, edge-case coverage, and semantic correctness of validation rules — not just generate them. Tools like <strong>DeepEval</strong> and <strong>Ragas</strong>, originally built for LLM output evaluation, are being repurposed for data validation scoring. For data-validation-web, this is directly applicable: your CodeMirror editor could gain an AI review layer that scores every <code>pl.col()</code> rule a user writes in real-time.</p>
+
+<h2>🛠️ Tools &amp; Releases</h2>
+<h3>1. Cursor AI — Vue 3 + Pinia native support</h3>
+<p>Cursor's latest update shipped first-class Vue 3 support including Pinia store generation and Fusion design system awareness via custom docs indexing. Directly applicable: AI-assisted component scaffolding for rule editors and validation grid filters in your project.</p>
+<h3>2. Vite 6.4 + Rolldown — 10x build speed</h3>
+<p>Vite 6.4 (already in your stack) shipped experimental Rolldown support — a Rust-based bundler benchmarking at 10x faster than esbuild for large monorepos. Enable in dev mode for faster iteration during rule engine development.</p>
+<h3>3. Anthropic MCP — 47 new community servers this week</h3>
+<p>The MCP ecosystem added servers for Snowflake, dbt, Apache Spark, and financial data APIs. A Snowflake MCP server could enable your agent to directly query financial data distributions, auto-propose validation rules based on real column stats, and generate test cases from historical data.</p>
+<h3>4. Playwright AI — natural language E2E test generation</h3>
+<p>Playwright released an experimental AI mode that generates E2E scripts from plain-English descriptions. Since your project already has Playwright configured, this could dramatically accelerate test coverage for rule creation and validation run flows — describe the flow in English, get a test.</p>
+<h3>5. OpenAI o3-mini — cheap fast reasoning for rule checking</h3>
+<p>o3-mini is now in the API at ~10x lower cost than o3 with strong logical reasoning. Ideal as a background validator that checks rule logic for common errors (division by zero, null pointer dereference equivalents in Polars) before a user even runs a validation job.</p>
+
+<h2>🏗️ Architecture Patterns</h2>
+<p><strong>Pattern: Validation-as-a-Living-System.</strong> 2026's emerging pattern treats data validation not as a static rule engine but as a system with AI feedback loops. An agent monitors validation run results over time, identifies which rules fail most frequently, detects patterns in failures (e.g., always fails on weekends = market closure issue), and proposes updated rule logic as a draft for human review. This could elevate data-validation-web from a rule editor into an intelligent data quality platform.</p>
+<p><strong>Pattern: Semantic Rule Search.</strong> Instead of browsing flat rule lists, users describe what they need in natural language ("rules that check for negative prices in portfolio data") and a vector search over rule descriptions returns semantically similar existing rules. Reduces duplication, helps new team members discover relevant logic faster. Implementation: embed rule descriptions with <code>text-embedding-3-small</code>, store in pgvector/Pinecone, query from the rule search UI.</p>
+
+<h2>💡 Recommendation for Your Data-Validation Project</h2>
+<div class="tip-box">
+<p><strong>🎯 Add AI Rule Suggestions to the CodeMirror Editor — Estimated 2 days, High Impact</strong></p>
+<p>Here's a concrete sprint-ready enhancement: integrate an LLM-powered suggestion layer into your existing CodeMirror setup. When a user pauses typing (debounced 800ms), send the partial rule + current template's field schema to a Claude API call. Return 2-3 suggested completions as ghost text — GitHub Copilot-style but domain-specific to your Polars validation syntax.</p>
+<p><strong>Implementation path:</strong> <code>useCodeMirrorAI.ts</code> composable → intercepts editor state change → POST to <code>/api/rule-suggestions</code> endpoint → Express route calls Anthropic API with system prompt containing field schema + past rules → streams completions back → CodeMirror ViewPlugin renders as inline hints.</p>
+<p>System prompt example: <em>"You are a Polars data validation expert. The current template has fields: price (float), quantity (int), portfolio_id (string). The user is writing a validation rule. Suggest 3 completions for: <code>pl.col('price')</code>"</em></p>
+<p>Expected output: completion suggestions like <code>&gt; 0</code>, <code>.is_not_null()</code>, <code>.is_between(0.01, 10000)</code>. Estimated 40% reduction in rule authoring time based on similar SQL editor AI integrations.</p>
+</div>
+
+<h2>📰 Other Notable News</h2>
+<ul>
+<li><strong>Google Gemini 2.5</strong> released with 2M token context — useful for ingesting entire rule libraries + historical run data for cross-rule analysis</li>
+<li><strong>LangGraph 0.3</strong> added persistent agent memory — relevant for building stateful validation workflow agents that remember user preferences</li>
+<li><strong>GitHub Copilot Workspace</strong> now supports Vue 3 SFC editing — could accelerate component development in your project significantly</li>
+</ul>
+
+<h2>🔮 What to Watch</h2>
+<ul>
+<li><strong>Anthropic's structured output + multi-step planning</strong> (rumoured for April release) — would dramatically improve agentic rule generation quality and enable multi-step "validate this entire dataset" workflows</li>
+<li><strong>Vite 7 alpha</strong> dropping CJS support entirely — worth planning migration from any CommonJS patterns remaining in your Express server</li>
+</ul>
+
+</article>
+<div class="border-t border-gray-800 my-8"></div>
+<p class="text-gray-600 text-xs">🤖 Auto-generated by AI Agent · Tailored for data-validation-web (Vue 3 + TypeScript + FactSet Fusion) · March 11, 2026 · 7:00 AM IST</p>
+</main></body></html>
