@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Digest March 12, 2026 | Srikanth's Daily Digest</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Inter',sans-serif;background:#0f0f13;color:#e5e7eb}
+    .playfair{font-family:'Playfair Display',serif}
+    .prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}
+    .prose h2{font-size:1.2rem;font-weight:700;color:#93c5fd;margin:1.5rem 0 .75rem;border-bottom:1px solid #1e3a8a;padding-bottom:.5rem}
+    .prose ul{padding-left:1.2rem;margin-bottom:1rem}
+    .prose ul li{color:#d1d5db;line-height:1.8;margin-bottom:.25rem}
+    .prose a{color:#60a5fa;text-decoration:underline}
+  </style>
+</head>
+<body>
+<nav class="sticky top-0 z-50 border-b border-gray-800" style="background:rgba(15,15,19,.95);backdrop-filter:blur(10px)">
+  <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/daily-digest/" class="text-white font-semibold text-sm">&larr; Srikanth's Daily Digest</a>
+    <span class="text-xs font-bold px-3 py-1 rounded-full" style="background:#1e3a8a;color:#93c5fd">&#129302; AI DIGEST</span>
+  </div>
+</nav>
+<main class="max-w-4xl mx-auto px-6 py-12">
+  <p class="text-gray-500 text-sm mb-2">March 12, 2026 &middot; AI advances for data-validation-web</p>
+  <h1 class="playfair text-4xl font-bold text-white mb-4">AI Digest &mdash; March 12, 2026</h1>
+  <div class="border-t border-gray-800 my-6"></div>
+  <article class="prose max-w-none">
+<h2>🔥 Top Story</h2>
+<p>
+  <strong>GitHub Copilot SDK Launches in Technical Preview</strong> — GitHub dropped a major announcement this week: the <a href="https://github.blog/ai-and-ml/">Copilot SDK</a> is now available in technical preview, allowing developers to embed an AI coding agent directly into any application. The SDK is capable of planning multi-step tasks, invoking tools, editing files, and running terminal commands autonomously. For teams building data validation tooling, this is a watershed moment. Rather than waiting for a monolithic IDE feature, you can now wire an agentic loop directly into a web app's backend — meaning a future version of data-validation-web could let users describe a validation rule in plain English and have the SDK generate, lint, and test the corresponding <code>pl.col()</code> expression without leaving the browser.
+</p>
+
+<h2>🛠 Tools &amp; Releases</h2>
+<ul>
+  <li>
+    <strong>JetBrains Air (Agentic IDE)</strong> — JetBrains unveiled "Air," a new IDE built for concurrent AI-agent execution. While it targets desktop workflows, its multi-agent architecture is a preview of where browser-embedded editors like CodeMirror 6 are heading: parallel agents that can lint, suggest, and auto-correct validation expressions in real time.
+  </li>
+  <li>
+    <strong>VS Code Autopilot Mode (Weekly Releases)</strong> — Microsoft is shipping VS Code updates weekly and added an Autopilot mode that lets AI agents operate autonomously inside the editor. The extension APIs powering this are public, making it feasible to port similar agentic linting patterns into a CodeMirror 6 plugin for data-validation-web.
+  </li>
+  <li>
+    <strong>Vite 8 Beta</strong> — Vite 8 entered beta in late 2025 and continues to mature. The updated plugin API and improved HMR make it easier to integrate AI-powered transform plugins that can, for instance, statically analyse <code>pl.col()</code> expressions at build time and surface schema mismatches before the app is deployed.
+  </li>
+</ul>
+
+<h2>🏗 Architecture Pattern</h2>
+<p>
+  <strong>LLM-as-Linter via a Language Server Protocol (LSP) Bridge</strong> — A pattern gaining traction in 2026 is standing up a thin LSP server on the Express backend that proxies diagnostics requests to an LLM. The frontend CodeMirror 6 editor connects to this LSP over WebSocket. When a user types a validation rule, the editor sends the document to the LSP server, which calls the LLM with the current schema context and returns structured diagnostic objects (line, column, severity, message). CodeMirror renders these as inline squiggles. This decouples the AI inference layer from the UI completely, keeps the Vue components clean, and allows the LLM provider to be swapped (OpenAI → Anthropic → local Ollama) without touching the frontend at all.
+</p>
+
+<h2>💡 Project Recommendation</h2>
+<p>
+  <strong>Add an AI Rule Suggestion panel to <code>src/components/RuleEditor.vue</code></strong> — The highest-leverage change you can make this week is adding a "Suggest Rule" button to the existing rule editor component. On click, it POSTs the current dataset schema (column names + inferred types) to a new Express endpoint <code>/api/ai/suggest-rules</code>. That endpoint calls an LLM with a prompt like: <em>"Given these columns: {schema}, generate 5 pl.col() validation rules as JSON array with fields: expression, description, severity."</em> The response is rendered in a slide-in panel where the user can click any suggestion to insert it directly into the CodeMirror editor via the <code>editor.dispatch()</code> API. This requires changes to exactly two files: <code>src/components/RuleEditor.vue</code> (UI + dispatch logic) and <code>server/routes/ai.ts</code> (new Express route). The Pinia store already holds schema state, so no store changes are needed.
+</p>
+
+<h2>📰 Other News</h2>
+<ul>
+  <li><strong>Atlassian cuts 1,600 jobs in AI pivot</strong> — Atlassian is restructuring toward AI-first tooling; their new AI-powered Jira suggestions are worth watching for workflow automation patterns applicable to validation rule management.</li>
+  <li><strong>GitHub Agentic Workflows (Technical Preview)</strong> — GitHub Actions now supports AI agents that handle triage, documentation, and code quality checks automatically — useful for auto-validating schema changes in PRs for data-validation-web.</li>
+  <li><strong>Anthropic Code Review Tool</strong> — Anthropic released a dedicated code review product. Early reviewers note it is "pricey but finds worthy issues," particularly strong at identifying logic errors in conditional expressions — directly relevant to complex <code>pl.col()</code> rule chains.</li>
+  <li><strong>GitHub Actions Security Breach via AI Bot</strong> — An AI-powered bot compromised GitHub Actions workflows at several major organisations. A reminder to scope LLM tool permissions carefully if you add agentic capabilities to the data-validation-web CI pipeline.</li>
+</ul>
+
+<h2>👀 What to Watch</h2>
+<ul>
+  <li><strong>Copilot SDK GA date</strong> — The technical preview is live now; watch for general availability announcements in the coming weeks. GA will likely include stable TypeScript types and rate-limit guarantees, making it safe to build production features on.</li>
+  <li><strong>Vite 8 stable</strong> — The beta is maturing quickly. Track the <a href="https://vite.dev/blog/">Vite blog</a> for a stable release; upgrading early gives access to improved plugin hooks needed for build-time schema validation.</li>
+</ul>
+
+<p><em>— AI Digest, auto-generated for data-validation-web, March 12, 2026</em></p>
+</article>
+  <div class="border-t border-gray-800 mt-8 pt-6 text-center">
+    <p class="text-gray-600 text-xs mb-3">Auto-generated &middot; March 12, 2026 &middot; 7:00 AM IST</p>
+    <a href="/daily-digest/" class="text-blue-400 text-sm">&larr; All posts</a>
+  </div>
+</main>
+</body></html>
