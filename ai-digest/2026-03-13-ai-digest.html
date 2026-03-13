@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Digest — March 13, 2026 | Srikanth's Daily Digest</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Inter',sans-serif;background:#0f0f13;color:#e5e7eb}
+    .playfair{font-family:'Playfair Display',serif}
+    .prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}
+    .prose h2{font-size:1.2rem;font-weight:700;color:#93c5fd;margin:1.5rem 0 .75rem;border-bottom:1px solid #1e3a8a;padding-bottom:.5rem}
+    .prose ul{padding-left:1.2rem;margin-bottom:1rem}
+    .prose ul li{color:#d1d5db;line-height:1.8;margin-bottom:.4rem}
+    .prose a{color:#60a5fa;text-decoration:underline}
+    .prose code{background:#1e293b;color:#7dd3fc;padding:.1rem .3rem;border-radius:.25rem;font-size:.85em}
+    .prose strong{color:#f1f5f9}
+  </style>
+</head>
+<body>
+<nav class="sticky top-0 z-50 border-b border-gray-800" style="background:rgba(15,15,19,.95);backdrop-filter:blur(10px)">
+  <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/daily-digest/" class="text-white font-semibold text-sm">&larr; Srikanth's Daily Digest</a>
+    <span class="text-xs font-bold px-3 py-1 rounded-full" style="background:#1e3a8a;color:#93c5fd">&#129302; AI DIGEST</span>
+  </div>
+</nav>
+<main class="max-w-4xl mx-auto px-6 py-12">
+  <p class="text-gray-500 text-sm mb-2">March 13, 2026 &middot; AI advances for data-validation-web</p>
+  <h1 class="playfair text-4xl font-bold text-white mb-4">AI Digest &mdash; March 13, 2026</h1>
+  <p class="text-gray-400 mb-8">Tools &middot; Architecture Patterns &middot; Project Recommendations</p>
+  <div class="border-t border-gray-800 mb-8"></div>
+  <article class="prose max-w-none">
+<h2>🔥 Top Story</h2>
+<p><strong>Vite 8 is officially out</strong> — and it's the biggest architectural change since Vite 2. The new release ships <strong>Rolldown as a single unified Rust-based bundler</strong>, replacing the previous esbuild + Rollup split. Result: <strong>10–30x faster production builds</strong> with full plugin compatibility. For data-validation-web, this is a direct win — your current Vite + TypeScript pipeline will be dramatically faster with a simple version bump. The new <a href="https://registry.vite.dev">registry.vite.dev</a> plugin directory also makes it easier to discover CodeMirror and validation-related plugins.</p>
+
+<h2>🛠 Tools &amp; Releases</h2>
+<ul>
+<li><strong>Vite 8.0</strong> — Rolldown-powered, Rust-based bundler, 10–30x build speed gains. Drop-in upgrade for data-validation-web. Run <code>pnpm create vite</code> or bump your package.json. <strong>Relevance: HIGH</strong></li>
+<li><strong>Spine Swarm (YC S23)</strong> — Visual AI agent orchestration platform backed by Y Combinator and Claude Code builders. Agents collaborate on a canvas, delegate tasks in parallel, and synthesise outputs. Relevant for building a "validation rule suggestion swarm" — one agent reads your schema, another generates pl.col() rules, a third validates them. <strong>Relevance: HIGH</strong></li>
+<li><strong>Captain (YC W26)</strong> — Automated RAG pipeline service. Connects to your data lake or cloud storage, creates fully-managed context pipelines for AI agents. Useful if you want to give an LLM access to your validation rule history or schema corpus without building custom retrieval. <strong>Relevance: MEDIUM</strong></li>
+</ul>
+
+<h2>🏗 Architecture Pattern: Schema-Aware Rule Generation</h2>
+<p>A pattern gaining traction in enterprise data tools: <strong>schema-to-rule pipelines</strong>. The flow is simple — (1) extract column names + data types from your dataset, (2) pass the schema as structured context to an LLM, (3) LLM returns ranked pl.col() rule suggestions with confidence scores. This maps directly onto data-validation-web's CodeMirror editor. The key insight from Spine Swarm's approach: use a <em>lead agent</em> that understands schema structure to delegate rule generation to specialised sub-agents (one for numeric checks, one for string formats, one for cross-column constraints). This produces better rules than a single-prompt approach.</p>
+
+<h2>💡 Project Recommendation</h2>
+<p><strong>Upgrade to Vite 8 immediately.</strong> Edit <code>package.json</code> — bump <code>"vite"</code> to <code>"^8.0.0"</code> and run <code>pnpm install</code>. Your build times will drop 10–30x. Then, add a <code>POST /api/ai/suggest</code> endpoint to your Express backend: accept <code>{ schema: ColumnDef[], partialRule: string }</code>, send to an LLM, return an array of <code>pl.col()</code> completions. Wire this to CodeMirror's <code>autocompletion()</code> extension — when a user types <code>pl.col("</code>, fetch suggestions and show them as inline completions. Two files: <code>server/routes/ai.ts</code> (new endpoint) and <code>src/extensions/aiComplete.ts</code> (CodeMirror completion source).</p>
+
+<h2>📰 Other News</h2>
+<ul>
+<li>🤖 <strong>Can I Run AI Locally?</strong> — New tool at canirun.ai checks if your hardware can run specific LLMs locally. Useful for scoping whether data-validation-web can offer an on-premise AI mode.</li>
+<li>🔒 <strong>Instagram drops E2E encrypted messaging on May 8</strong> — signals broader industry re-evaluation of encryption UX, relevant if your validation platform handles sensitive financial data.</li>
+<li>🪣 <strong>Bucketsquatting is dead</strong> — AWS fixed the S3 bucket-squatting attack vector. If data-validation-web uses S3 for schema storage, you can breathe easier.</li>
+<li>🧠 <strong>Executing programs inside transformers with exponential speedup</strong> — Percepta.ai research shows LLMs can execute symbolic computation natively, foreshadowing LLMs that validate pl.col() expressions directly without a Python runtime.</li>
+</ul>
+
+<h2>👀 What to Watch</h2>
+<ul>
+<li>📦 <strong>Vite 8 plugin ecosystem</strong> — Registry.vite.dev is live. Watch for CodeMirror-Vite integration plugins and TypeScript transformer updates over the next week.</li>
+<li>🤖 <strong>Spine Swarm's public launch</strong> — They're onboarding early users. Could be a free way to prototype the AI rule-suggestion agent architecture before building it in-house.</li>
+</ul>
+
+<p><em>— AI Digest, auto-generated for data-validation-web, March 13, 2026</em></p>
+</article>
+  <div class="border-t border-gray-800 mt-8 pt-6 flex justify-between items-center">
+    <p class="text-gray-600 text-xs">Auto-generated &middot; March 13, 2026 &middot; Claude + agent-browser</p>
+    <a href="/daily-digest/" class="text-blue-400 text-sm">&larr; All posts</a>
+  </div>
+</main>
+</body></html>
