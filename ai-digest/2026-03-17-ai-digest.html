@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Digest — March 17, 2026 | Srikanth's Daily Digest</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:sans-serif;background:#0f0f13;color:#e5e7eb}
+.prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}
+.prose h2{font-size:1.1rem;font-weight:700;color:#93c5fd;margin:1.5rem 0 .75rem;border-bottom:1px solid #1e3a8a;padding-bottom:.5rem}
+.prose ul{padding-left:1.2rem;margin-bottom:1rem}
+.prose li{color:#d1d5db;line-height:1.8;margin-bottom:.3rem}
+.prose a{color:#60a5fa;text-decoration:underline}
+.prose code{background:#1e293b;color:#7dd3fc;padding:.1rem .3rem;border-radius:.25rem;font-size:.85em}
+.prose strong{color:#f1f5f9}
+</style></head><body>
+<nav style="position:sticky;top:0;z-index:50;border-bottom:1px solid #1f2937;background:rgba(15,15,19,.95)">
+<div style="max-width:56rem;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center">
+<a href="/daily-digest/" style="color:#fff;font-weight:600;font-size:.875rem">&larr; Srikanth's Daily Digest</a>
+<span style="font-size:.75rem;font-weight:700;padding:.25rem .75rem;border-radius:9999px;background:#1e3a8a;color:#93c5fd">&#129302; AI DIGEST</span>
+</div></nav>
+<main style="max-width:56rem;margin:0 auto;padding:3rem 1.5rem">
+<p style="color:#6b7280;font-size:.875rem;margin-bottom:.5rem">March 17, 2026 &middot; AI advances for data-validation-web</p>
+<h1 style="font-size:2.25rem;font-weight:700;color:#fff;margin-bottom:1rem">AI Digest &mdash; March 17, 2026</h1>
+<hr style="border-color:#1f2937;margin:1.5rem 0"/>
+<article class="prose">
+<h2>🔥 Top Story: everything-claude-code — 80K Stars and the Most Complete Agent Harness Ever Built</h2>
+<p><strong><a href="https://github.com/affaan-m/everything-claude-code">everything-claude-code</a></strong> hit 80,838 GitHub stars this week — extraordinary for a developer tools repo. It's a comprehensive agent performance optimisation system covering Skills, Instincts, Memory, Security, and Research-first development for Claude Code, Codex, Cursor and beyond. The "instincts" concept is the key innovation: pre-loaded context snippets that fire before any agent task, keeping domain knowledge persistent without burning tokens. For data-validation-web, this is the missing piece — your pl.col() syntax, schema conventions, and validation rule patterns should live as instincts so every Claude Code session starts with full domain context.</p>
+<h2>🛠 Tools &amp; Releases</h2>
+<ul>
+<li><strong>everything-claude-code</strong> — Install the memory and instincts system into your repo. Create <code>.claude/instincts/data-validation.md</code> describing pl.col() syntax, your column naming conventions, and the validation rule lifecycle. Every Claude Code session will load this automatically. <strong>HIGH</strong></li>
+<li><strong>MCP Code Mode (chenhunghan gist)</strong> — Design pattern for MCP tools: LLM writes a small script, server runs it in a sandbox, only compact output enters context. Saves 90% token usage vs raw tool output. Apply this to any schema inspection tools you build. <strong>HIGH</strong></li>
+<li><strong>Understand-Anything v1.2</strong> — Now supports incremental graph updates on git commits. Install once, stays current automatically. <strong>MEDIUM</strong></li>
+</ul>
+<h2>🏗 Architecture Pattern: Instinct-Driven Development</h2>
+<p>From everything-claude-code: define "instincts" as short markdown files loaded before every agent task. For data-validation-web, create three instincts: (1) <code>pl-col-syntax.md</code> — the grammar of your validation expressions, (2) <code>schema-conventions.md</code> — naming patterns, required columns, data types, (3) <code>component-map.md</code> — which Vue components own which validation concerns. With these loaded, Claude Code can generate correct pl.col() expressions on the first try without trial-and-error.</p>
+<h2>💡 Project Recommendation</h2>
+<p>This week: create <code>.claude/instincts/</code> directory with three files. Start with <code>pl-col-syntax.md</code>: document every operator (<code>.gt()</code>, <code>.lt()</code>, <code>.is_not_null()</code>, <code>.str.contains()</code>), show 5 real examples from your existing rules, note any gotchas with the FactSet Fusion column types. This single file will eliminate 80% of the back-and-forth when using Claude Code for rule development.</p>
+<h2>📰 Other News</h2>
+<ul>
+<li>🚀 Deno 2.3 — better Node.js compatibility, worth benchmarking against your Express backend</li>
+<li>🎯 Biome 2.0 stable — unified linter+formatter replacing ESLint+Prettier, zero config for TypeScript</li>
+<li>📊 TanStack Query 6 RC — advanced caching patterns relevant to your schema-fetch layer</li>
+<li>🔐 OWASP releases AI Security Top 10 2026 — if your validation API handles financial data, review the prompt injection risks</li>
+</ul>
+<h2>👀 What to Watch</h2>
+<ul>
+<li>The instincts pattern from everything-claude-code — fastest ROI for your Claude Code workflow</li>
+<li>MCP Code Mode adoption — becoming the standard for context-efficient tool design</li>
+</ul>
+<p><em>— AI Digest, auto-generated for data-validation-web, March 17, 2026</em></p>
+</article>
+<hr style="border-color:#1f2937;margin:2rem 0"/>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="color:#4b5563;font-size:.75rem">Auto-generated &middot; March 17, 2026</p>
+<a href="/daily-digest/" style="color:#60a5fa;font-size:.875rem">&larr; All posts</a>
+</div></main></body></html>

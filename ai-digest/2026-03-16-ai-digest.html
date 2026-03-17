@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Digest — March 16, 2026 | Srikanth's Daily Digest</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:sans-serif;background:#0f0f13;color:#e5e7eb}
+.prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}
+.prose h2{font-size:1.1rem;font-weight:700;color:#93c5fd;margin:1.5rem 0 .75rem;border-bottom:1px solid #1e3a8a;padding-bottom:.5rem}
+.prose ul{padding-left:1.2rem;margin-bottom:1rem}
+.prose li{color:#d1d5db;line-height:1.8;margin-bottom:.3rem}
+.prose a{color:#60a5fa;text-decoration:underline}
+.prose code{background:#1e293b;color:#7dd3fc;padding:.1rem .3rem;border-radius:.25rem;font-size:.85em}
+.prose strong{color:#f1f5f9}
+</style></head><body>
+<nav style="position:sticky;top:0;z-index:50;border-bottom:1px solid #1f2937;background:rgba(15,15,19,.95)">
+<div style="max-width:56rem;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center">
+<a href="/daily-digest/" style="color:#fff;font-weight:600;font-size:.875rem">&larr; Srikanth's Daily Digest</a>
+<span style="font-size:.75rem;font-weight:700;padding:.25rem .75rem;border-radius:9999px;background:#1e3a8a;color:#93c5fd">&#129302; AI DIGEST</span>
+</div></nav>
+<main style="max-width:56rem;margin:0 auto;padding:3rem 1.5rem">
+<p style="color:#6b7280;font-size:.875rem;margin-bottom:.5rem">March 16, 2026 &middot; AI advances for data-validation-web</p>
+<h1 style="font-size:2.25rem;font-weight:700;color:#fff;margin-bottom:1rem">AI Digest &mdash; March 16, 2026</h1>
+<hr style="border-color:#1f2937;margin:1.5rem 0"/>
+<article class="prose">
+<h2>🔥 Top Story: Understand-Anything — Turn Any Codebase into an Interactive Knowledge Graph</h2>
+<p><strong><a href="https://github.com/Lum1104/Understand-Anything">Understand-Anything</a></strong> (531 stars, trending) is a set of Claude Code skills that converts any codebase into an interactive knowledge graph you can explore, search, and query. Instead of grepping through files, you ask: "What validates a pl.col() expression?" and get a mapped answer with source locations. This is exactly what data-validation-web needs as it grows — a way for Claude Code (and your team) to navigate the validation rule engine, understand component relationships, and safely make changes without breaking existing rules.</p>
+<h2>🛠 Tools &amp; Releases</h2>
+<ul>
+<li><strong>Understand-Anything</strong> — Install the skills into <code>.claude/skills/</code>, point at your repo, and get a queryable knowledge graph of your codebase. Especially useful for navigating the CodeMirror extension setup and Pinia store relationships. <strong>HIGH</strong></li>
+<li><strong>everything-claude-code</strong> (80,838 stars!) — A massive curated collection of Claude Code optimisation patterns: Skills, instincts, memory systems, security, and research-first development. The "instincts" pattern (pre-loaded context that fires before any task) is particularly relevant for keeping your data-validation domain knowledge persistent across Claude Code sessions. <strong>HIGH</strong></li>
+<li><strong>Cursor Rules community pack</strong> — 200+ <code>.cursorrules</code> / CLAUDE.md templates for TypeScript, Vue 3, Express. Good starting point for your <code>CLAUDE.md</code>. <strong>MEDIUM</strong></li>
+</ul>
+<h2>🏗 Architecture Pattern: Codebase Memory with Knowledge Graphs</h2>
+<p>The pattern from Understand-Anything: (1) run a skills-based indexer over your codebase, (2) store relationships as a graph (component → uses → store → type), (3) query the graph before any AI task to get relevant context. For data-validation-web, this means Claude Code always knows that <code>RuleEditor.vue</code> uses <code>useRuleStore()</code> which calls <code>validateExpression()</code> in <code>server/lib/validator.ts</code> — without you having to explain it every session.</p>
+<h2>💡 Project Recommendation</h2>
+<p>Install Understand-Anything skills into your repo today: clone the skills to <code>.claude/skills/understand/</code> and run the indexer on your <code>src/</code> and <code>server/</code> directories. Then add a <code>CLAUDE.md</code> at repo root (from everything-claude-code's templates) that describes your pl.col() syntax, validation rule structure, and key component relationships. This will make every future Claude Code session dramatically more context-aware from the first prompt.</p>
+<h2>📰 Other News</h2>
+<ul>
+<li>🧠 Google DeepMind releases Gemma 3 open weights — strong TypeScript code generation performance</li>
+<li>🔧 ESLint 9.5 ships with new AI-assisted rule suggestions — could integrate into your CI pipeline</li>
+<li>📱 Expo SDK 53 — if you ever want a mobile companion for data-validation-web</li>
+</ul>
+<h2>👀 What to Watch</h2>
+<ul>
+<li><strong>everything-claude-code</strong> — the "instincts" and "memory" patterns are the most immediately actionable for your workflow</li>
+<li><strong>Understand-Anything</strong> — v2 promised with auto-updating graph on git commits</li>
+</ul>
+<p><em>— AI Digest, auto-generated for data-validation-web, March 16, 2026</em></p>
+</article>
+<hr style="border-color:#1f2937;margin:2rem 0"/>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="color:#4b5563;font-size:.75rem">Auto-generated &middot; March 16, 2026</p>
+<a href="/daily-digest/" style="color:#60a5fa;font-size:.875rem">&larr; All posts</a>
+</div></main></body></html>

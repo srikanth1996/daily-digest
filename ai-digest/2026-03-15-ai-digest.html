@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Digest — March 15, 2026 | Srikanth's Daily Digest</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:sans-serif;background:#0f0f13;color:#e5e7eb}
+.prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}
+.prose h2{font-size:1.1rem;font-weight:700;color:#93c5fd;margin:1.5rem 0 .75rem;border-bottom:1px solid #1e3a8a;padding-bottom:.5rem}
+.prose ul{padding-left:1.2rem;margin-bottom:1rem}
+.prose li{color:#d1d5db;line-height:1.8;margin-bottom:.3rem}
+.prose a{color:#60a5fa;text-decoration:underline}
+.prose code{background:#1e293b;color:#7dd3fc;padding:.1rem .3rem;border-radius:.25rem;font-size:.85em}
+.prose strong{color:#f1f5f9}
+</style></head><body>
+<nav style="position:sticky;top:0;z-index:50;border-bottom:1px solid #1f2937;background:rgba(15,15,19,.95)">
+<div style="max-width:56rem;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center">
+<a href="/daily-digest/" style="color:#fff;font-weight:600;font-size:.875rem">&larr; Srikanth's Daily Digest</a>
+<span style="font-size:.75rem;font-weight:700;padding:.25rem .75rem;border-radius:9999px;background:#1e3a8a;color:#93c5fd">&#129302; AI DIGEST</span>
+</div></nav>
+<main style="max-width:56rem;margin:0 auto;padding:3rem 1.5rem">
+<p style="color:#6b7280;font-size:.875rem;margin-bottom:.5rem">March 15, 2026 &middot; AI advances for data-validation-web</p>
+<h1 style="font-size:2.25rem;font-weight:700;color:#fff;margin-bottom:1rem">AI Digest &mdash; March 15, 2026</h1>
+<hr style="border-color:#1f2937;margin:1.5rem 0"/>
+<article class="prose">
+<h2>🔥 Top Story: Skills vs MCP — The Architecture Debate Every Agent Builder Needs to See</h2>
+<p>A viral article on The New Stack this week crystallised a debate reshaping how developers build AI agents: <strong>when to use MCP servers vs when to use SKILL.md files</strong>. The key insight: a GitHub MCP server consumed 50,000 tokens of context to teach an agent GitHub interactions. A single SKILL.md file using the <code>gh</code> CLI achieved the same result in 200 tokens — a <strong>250x reduction</strong>. The rule: use MCP for <em>dynamic data access</em> (live queries, real-time state); use Skills for <em>stable knowledge</em> (how to do something, workflow steps, coding patterns). For data-validation-web, this means your validation rule authoring workflows belong in SKILL.md files, not MCP tools.</p>
+<h2>🛠 Tools &amp; Releases</h2>
+<ul>
+<li><strong>One Prompt to Save 90% MCP Context</strong> (chenhunghan gist) — A technique using "code mode" for MCP servers: instead of the LLM receiving raw tool output, the LLM writes a small script that runs in a sandbox and only the compact output enters context. Direct application: your schema inspection tools should return computed summaries, not raw JSON dumps. <strong>HIGH</strong></li>
+<li><strong>NanoClaw Skills Executor</strong> — Now supports SKILL.md orchestration where a lead agent delegates to sub-agents. Could automate your data-validation rule review pipeline. <strong>HIGH</strong></li>
+<li><strong>Claude Code Skills ecosystem</strong> — Growing library of SKILL.md files for common dev tasks. See <a href="https://thenewstack.io/skills-vs-mcp-agent-architecture/">The New Stack</a> for the full breakdown. <strong>MEDIUM</strong></li>
+</ul>
+<h2>🏗 Architecture Pattern: Skill-First Agent Design</h2>
+<p>For data-validation-web's AI features, adopt this pattern: (1) Write a <code>VALIDATE_RULE.md</code> skill that describes how to check a pl.col() expression for syntax errors and schema compatibility. (2) Write a <code>SUGGEST_RULE.md</code> skill that describes how to generate rules from a schema. (3) Keep your MCP tools only for live data: fetching the current schema from your API, running a validation rule against sample data. This split keeps context lean and agents reliable.</p>
+<h2>💡 Project Recommendation</h2>
+<p>Create <code>.claude/skills/validate-rule.md</code> in your repo. Write it as: "Given a pl.col() expression and a schema, check: (1) column names exist in schema, (2) data types match the operation, (3) return a JSON with <code>valid: bool</code> and <code>errors: string[]</code>." This becomes a reusable skill for both your AI suggestion endpoint and your Claude Code development workflow.</p>
+<h2>📰 Other News</h2>
+<ul>
+<li>🔒 GitHub Actions security breach via AI bot — reminder to audit your CI pipeline permissions</li>
+<li>🚀 Bun 2.0 stable — faster JS runtime, could replace Node in your Express backend</li>
+<li>📊 Observable Framework 2.0 — better data visualisation for validation analytics dashboards</li>
+</ul>
+<h2>👀 What to Watch</h2>
+<ul>
+<li>The SKILL.md vs MCP architectural split — this will define agent tooling in 2026</li>
+<li>Context efficiency techniques for MCP — the 90% reduction approach is gaining traction fast</li>
+</ul>
+<p><em>— AI Digest, auto-generated for data-validation-web, March 15, 2026</em></p>
+</article>
+<hr style="border-color:#1f2937;margin:2rem 0"/>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="color:#4b5563;font-size:.75rem">Auto-generated &middot; March 15, 2026</p>
+<a href="/daily-digest/" style="color:#60a5fa;font-size:.875rem">&larr; All posts</a>
+</div></main></body></html>
