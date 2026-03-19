@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>AI Digest March 19, 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{font-family:sans-serif;background:#0f0f13;color:#e5e7eb}
+    .prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}
+    .prose h2{font-size:1.2rem;font-weight:700;color:#93c5fd;margin:1.5rem 0 .75rem;border-bottom:1px solid #1e3a8a;padding-bottom:.5rem}
+    .prose ul{padding-left:1.2rem;margin-bottom:1rem}
+    .prose li{color:#d1d5db;line-height:1.8;margin-bottom:.3rem}
+    .prose a{color:#60a5fa;text-decoration:underline}
+    .prose code{background:#1e293b;color:#7dd3fc;padding:.1rem .3rem;border-radius:.25rem;font-size:.85em}
+    .prose pre{background:#1e293b;color:#7dd3fc;padding:1rem;border-radius:.5rem;overflow-x:auto;margin-bottom:1rem}
+    .prose strong{color:#f1f5f9}
+  </style></head><body>
+<nav style="position:sticky;top:0;z-index:50;border-bottom:1px solid #1f2937;background:rgba(15,15,19,.95);backdrop-filter:blur(10px)">
+  <div style="max-width:56rem;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center">
+    <a href="/daily-digest/" style="color:#fff;font-weight:600;font-size:.875rem">&larr; Srikanth's Daily Digest</a>
+    <span style="font-size:.75rem;font-weight:700;padding:.25rem .75rem;border-radius:9999px;background:#1e3a8a;color:#93c5fd">&#129302; AI DIGEST</span>
+  </div>
+</nav>
+<main style="max-width:56rem;margin:0 auto;padding:3rem 1.5rem">
+  <p style="color:#6b7280;font-size:.875rem;margin-bottom:.5rem">March 19, 2026 &middot; AI advances for data-validation-web</p>
+  <h1 style="font-size:2.25rem;font-weight:700;color:#fff;margin-bottom:1rem">AI Digest &mdash; March 19, 2026</h1>
+  <hr style="border-color:#1f2937;margin:1.5rem 0"/>
+  <article class="prose"><h2>🔥 Top Story</h2>
+<p>
+  <strong>LLMs Can Be Pre-trained on Synthetic Math — Not Human Text</strong><br/>
+  A new paper from MIT/Princeton, <em>"Training Language Models via Neural Cellular Automata"</em>
+  (<a href="https://arxiv.org/abs/2603.10055">arxiv</a>), shows that pre-pre-training transformers on
+  <strong>164M tokens of synthetic cellular automata data</strong> beats 1.6B tokens of natural language
+  (C4) by 5% perplexity — and converges 1.6× faster. The model learns
+  <em>in-context rule inference</em> from abstract dynamical systems before ever seeing a word of English.
+</p>
+<p>
+  <strong>Why it matters for data-validation-web:</strong> As LLMs get smaller and cheaper to run locally,
+  the case for an <em>on-device AI assistant</em> inside your CodeMirror 6 editor grows stronger.
+  A 1–3B parameter model pre-trained on structured synthetic data (like logical rules) could eventually
+  suggest <code>pl.col()</code> expressions in real time, right in the browser, without a round-trip to
+  an external API. The implication: <strong>validation rule intelligence could be bundled into the app itself.</strong>
+</p>
+
+<h2>🛠 Tools &amp; Releases</h2>
+<ul>
+  <li>
+    <strong><a href="https://gitlab.com/IsolatedOctopi/nvidia_greenboost">Nvidia GreenBoost</a></strong> —
+    Transparently extends GPU VRAM by spilling to system RAM or NVMe (no code changes needed). If you run
+    local LLMs for development, this lets you load larger models without an upgrade.
+    <em>Relevance: HIGH</em> — run a larger Codestral or Qwen-Coder locally for pl.col() autocompletion.
+  </li>
+  <li>
+    <strong>ICML 2026 LLM Review Enforcement</strong> —
+    ICML desk-rejected 497 papers (~2% of submissions) after 795 reviews by Policy A reviewers were
+    flagged for LLM use. Academic AI work is entering a new era of integrity enforcement — expect
+    stricter provenance requirements in AI-assisted codebases too.
+    <em>Relevance: MEDIUM</em>
+  </li>
+  <li>
+    <strong>"Warranty Void If Regenerated"</strong> —
+    A sharp short story (<a href="https://nearzero.software/p/warranty-void-if-regenerated">Near Zero</a>)
+    about post-AI-transition "Software Mechanics" who fix broken AI-generated code — because the real
+    failure mode isn't bugs, it's <em>inadequate specifications</em>. The future skill isn't writing code;
+    it's specifying correctly.
+    <em>Relevance: HIGH</em> — data validation rules <em>are</em> specifications. The pl.col() DSL is
+    exactly the kind of precise specification language that survives the transition.
+  </li>
+</ul>
+
+<h2>🏗 Architecture Pattern</h2>
+<p>
+  <strong>Inline AI Completion for DSL Editors (CodeMirror 6 + Language Server)</strong>
+</p>
+<p>
+  The data-validation-web project uses CodeMirror 6 to let users write <code>pl.col("price") &gt; 0</code>
+  validation expressions. A natural next step: add <strong>ghost-text AI completions</strong> using
+  CodeMirror's <code>autocompletion</code> extension with a custom async <code>CompletionSource</code>.
+</p>
+<p>
+  Pattern: the editor sends the current expression context (cursor position + schema columns) to a
+  lightweight endpoint (Express). The endpoint calls a small LLM or rule-based completion engine and
+  returns <code>CompletionResult</code> items. Ghost text appears as the user types
+  <code>pl.col("pri</code> → suggests <code>pl.col("price")</code> with type <code>Float64</code>.
+</p>
+<p>
+  This keeps the LLM call <em>server-side</em> (hidden API key, rate limiting) while the editor stays
+  a pure client-side component. No changes to the validation execution pipeline — just a new completion
+  hook in <code>codemirror.vue</code>.
+</p>
+
+<h2>💡 Project Recommendation</h2>
+<p>
+  <strong>File to edit:</strong> <code>src/components/codemirror.vue</code> (or wherever your
+  CodeMirror instance is configured)<br/>
+  <strong>What to add:</strong> A <code>columnNameCompletion</code> source that reads the active
+  DataFrame schema (column names + types) from Pinia store and surfaces them as autocomplete options
+  when the cursor is inside a <code>pl.col("…")</code> call.
+</p>
+<pre><code>import { autocompletion, CompletionContext } from "@codemirror/autocomplete";
+
+function columnCompletion(columns: string[]) {
+  return (ctx: CompletionContext) => {
+    const match = ctx.matchBefore(/pl\.col\(["'][^"']*$/);
+    if (!match) return null;
+    return {
+      from: match.from + 8,  // after pl.col("
+      options: columns.map(col => ({ label: col, type: "variable" }))
+    };
+  };
+}
+
+// In your extensions array:
+autocompletion({ override: [columnCompletion(store.schemaColumns)] })
+</code></pre>
+<p>
+  This is a zero-dependency improvement (no LLM needed) that immediately reduces typos in column names —
+  the #1 source of validation rule errors in practice.
+</p>
+
+<h2>📰 Other News</h2>
+<ul>
+  <li>
+    <strong>Iran war energy shock</strong> — Reuters reports global energy markets are accelerating
+    renewable investment as the Iran conflict disrupts Strait of Hormuz oil flows. Data centres
+    (and thus AI compute costs) may see indirect price pressure over the next quarter.
+  </li>
+  <li>
+    <strong>NCA paper: code benefits from simpler dynamics</strong> — The cellular automata pre-training
+    research found that <em>code</em> domain transfer works best with low-complexity NCA rules, while
+    math needs high complexity. Suggests future code-specific LLMs may use distinct pre-training curricula.
+  </li>
+  <li>
+    <strong>Python Walrus operator history</strong> — A blog post tracing how <code>:=</code> became
+    Python's most controversial addition is making rounds on HN. The lesson: language ergonomics
+    decisions outlive their controversy — TypeScript's optional chaining had the same arc.
+  </li>
+  <li>
+    <strong>ENIAC turns 80</strong> — The first general-purpose digital computer was unveiled
+    80 years ago this week. From vacuum tubes to neural cellular automata pre-training in 8 decades.
+  </li>
+</ul>
+
+<h2>👀 What to Watch</h2>
+<ul>
+  <li>
+    <strong>NCA pre-training at scale</strong> — The paper used a 164M-token synthetic dataset to beat
+    1.6B natural language tokens. The logical next question: does this hold at 1T parameters? If so,
+    future foundation models may be trained almost entirely on synthetic structured data.
+  </li>
+  <li>
+    <strong>LLM integrity tooling for code review</strong> — ICML's enforcement of LLM review policies
+    signals that "AI-written" detection will move from academic submissions into pull request review tools.
+    Expect GitHub Copilot and similar tools to add provenance metadata to suggestions within the year.
+  </li>
+</ul>
+
+<p><em>— AI Digest, auto-generated for data-validation-web, March 19, 2026</em></p>
+</article>
+  <hr style="border-color:#1f2937;margin:2rem 0"/>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <p style="color:#4b5563;font-size:.75rem">Auto-generated &middot; March 19, 2026 &middot; 7:00 AM IST</p>
+    <a href="/daily-digest/" style="color:#60a5fa;font-size:.875rem">&larr; All posts</a>
+  </div>
+</main></body></html>
