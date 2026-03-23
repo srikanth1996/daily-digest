@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>AI Digest March 23, 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{font-family:sans-serif;background:#0f0f13;color:#e5e7eb}
+    .prose p{color:#d1d5db;line-height:1.8;margin-bottom:1rem}
+    .prose h2{font-size:1.2rem;font-weight:700;color:#93c5fd;margin:1.5rem 0 .75rem;border-bottom:1px solid #1e3a8a;padding-bottom:.5rem}
+    .prose ul{padding-left:1.2rem;margin-bottom:1rem}
+    .prose li{color:#d1d5db;line-height:1.8;margin-bottom:.3rem}
+    .prose a{color:#60a5fa;text-decoration:underline}
+    .prose code{background:#1e293b;color:#7dd3fc;padding:.1rem .3rem;border-radius:.25rem;font-size:.85em}
+    .prose pre{background:#1e293b;color:#7dd3fc;padding:1rem;border-radius:.5rem;overflow-x:auto;margin-bottom:1rem;font-size:.85em}
+    .prose strong{color:#f1f5f9}
+  </style></head><body>
+<nav style="position:sticky;top:0;z-index:50;border-bottom:1px solid #1f2937;background:rgba(15,15,19,.95);backdrop-filter:blur(10px)">
+  <div style="max-width:56rem;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center">
+    <a href="/daily-digest/" style="color:#fff;font-weight:600;font-size:.875rem">&larr; Srikanth's Daily Digest</a>
+    <span style="font-size:.75rem;font-weight:700;padding:.25rem .75rem;border-radius:9999px;background:#1e3a8a;color:#93c5fd">&#129302; AI DIGEST</span>
+  </div>
+</nav>
+<main style="max-width:56rem;margin:0 auto;padding:3rem 1.5rem">
+  <p style="color:#6b7280;font-size:.875rem;margin-bottom:.5rem">March 23, 2026 &middot; AI advances for data-validation-web</p>
+  <h1 style="font-size:2.25rem;font-weight:700;color:#fff;margin-bottom:1rem">AI Digest &mdash; March 23, 2026</h1>
+  <hr style="border-color:#1f2937;margin:1.5rem 0"/>
+  <article class="prose"><h2>🔥 Top Story</h2>
+<p>
+  <strong>397 Billion Parameters on a MacBook: Flash-MoE Rewrites What "Local AI" Means</strong><br/>
+  <a href="https://github.com/danveloper/flash-moe">Flash-MoE</a> (1.3k⭐) is a pure C + Metal inference
+  engine that runs <strong>Qwen3.5-397B-A17B</strong> — a 397 billion parameter Mixture-of-Experts model —
+  on a MacBook Pro M3 Max (48GB RAM) at <strong>4.4 tokens/second</strong> with full tool-calling support.
+  No Python. No frameworks. 209GB streams from SSD through hand-tuned Metal shaders.
+</p>
+<p>
+  <strong>Why it matters for data-validation-web:</strong> The ability to run a 397B model locally without
+  an internet connection changes the economics of AI-powered developer tools. An on-device assistant that
+  suggests <code>pl.col("price") &gt; 0</code> completions, explains validation errors in plain English, or
+  proposes rule fixes — all offline, zero latency — is no longer science fiction. The path is: Flash-MoE
+  style C/Metal inference → WebAssembly port → CodeMirror 6 extension. Not in 2026, but sooner than you think.
+</p>
+
+<h2>🛠 Tools &amp; Releases</h2>
+<ul>
+  <li>
+    <strong><a href="https://github.com/danveloper/flash-moe">Flash-MoE</a></strong> —
+    Pure C + Metal inference for 397B MoE models on consumer hardware. 4-bit quantized experts,
+    58 documented experiments, built by a human + Claude in 24 hours. Highest-ranked HN story of the day.
+    <em>Relevance: HIGH</em> — local LLM for CodeMirror autocomplete.
+  </li>
+  <li>
+    <strong><a href="https://bramcohen.com/p/manyana">Manyana</a> (Bram Cohen)</strong> —
+    CRDT-based version control where merges never fail. Conflict markers tell you <em>what happened</em>
+    (deleted left / added right) instead of two opaque blobs. Built by the creator of BitTorrent.
+    <em>Relevance: MEDIUM</em> — AI-generated validation rules will need smarter merge semantics.
+  </li>
+  <li>
+    <strong>OpenAI introduces ads to ChatGPT</strong> —
+    ChatGPT free and Go tiers will carry ads in the U.S. starting this month. The ad-supported model
+    means free-tier users will increasingly see AI-powered tools bundled with sponsored suggestions.
+    <em>Relevance: MEDIUM</em> — expect ad-supported AI autocomplete in IDEs within 12 months.
+  </li>
+</ul>
+
+<h2>🏗 Architecture Pattern</h2>
+<p>
+  <strong>Validation Rule Explainer: AI Sidebar in the Editor</strong>
+</p>
+<p>
+  Flash-MoE's success with tool-calling on local hardware points to a pattern for data-validation-web:
+  an <strong>AI explanation sidebar</strong> that watches the CodeMirror 6 editor and explains the
+  currently-focused rule in plain English. As the user types <code>pl.col("price").is_between(0, 1000)</code>,
+  the sidebar shows: "Checks that all values in the <em>price</em> column fall between 0 and 1,000 (inclusive)."
+</p>
+<p>
+  Implementation: a Vue 3 composable <code>useRuleExplainer()</code> that debounces the editor value
+  (300ms), sends it to an Express endpoint, and streams back a one-sentence explanation. Server-side,
+  call a small LLM (Claude Haiku, GPT-4o-mini, or eventually a local Flash-MoE endpoint) with a
+  system prompt that knows the Polars <code>pl.col()</code> API.
+</p>
+<p>
+  The sidebar only activates when the cursor is inside a <code>pl.col()</code> expression, keeping
+  API calls minimal. No validation execution path changes required — purely additive.
+</p>
+
+<h2>💡 Project Recommendation</h2>
+<p>
+  <strong>File to edit:</strong> Create <code>src/composables/useRuleExplainer.ts</code><br/>
+  <strong>What to add:</strong> A composable that takes the current CodeMirror editor value as a
+  <code>Ref&lt;string&gt;</code> and returns a <code>Ref&lt;string&gt;</code> explanation, populated
+  via a debounced POST to <code>/api/explain-rule</code>.
+</p>
+<pre><code>// src/composables/useRuleExplainer.ts
+import { ref, watch } from "vue";
+import { useDebounceFn } from "@vueuse/core";
+
+export function useRuleExplainer(rule: Ref&lt;string&gt;) {
+  const explanation = ref("");
+  const loading = ref(false);
+
+  const explain = useDebounceFn(async (r: string) => {
+    if (!r.includes("pl.col")) { explanation.value = ""; return; }
+    loading.value = true;
+    const res = await fetch("/api/explain-rule", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ rule: r }),
+    });
+    const data = await res.json();
+    explanation.value = data.explanation;
+    loading.value = false;
+  }, 300);
+
+  watch(rule, explain);
+  return { explanation, loading };
+}
+</code></pre>
+<p>
+  Wire this into your editor component and display <code>explanation</code> in a subtle sidebar.
+  Add the Express <code>/api/explain-rule</code> handler with a 3-line LLM call to get started.
+</p>
+
+<h2>📰 Other News</h2>
+<ul>
+  <li>
+    <strong>"Reports of code's death are greatly exaggerated"</strong>
+    (<a href="https://stevekrouse.com/precision">Steve Krouse</a>) — A sharp essay: vibe coding gives
+    the illusion that English specs are precise — until they leak at scale. The complexity doesn't go
+    away; you just don't see it until it's too late. Abstraction (not vibes) is the lasting skill.
+    Highly relevant for data validation: a <code>pl.col()</code> expression IS the precise abstraction.
+  </li>
+  <li>
+    <strong>Intuitions for Transformer Circuits</strong> —
+    A visual explainer of induction heads and attention patterns. If you're using an LLM to explain
+    pl.col() rules, understanding why LLMs are good at pattern-matching (but bad at novel reasoning)
+    helps you design better prompts.
+  </li>
+  <li>
+    <strong>"They're Vibe-Coding Spam Now"</strong> (Tedium) —
+    AI is being used to mass-generate email spam at scale. The same vibe-coding tools that let developers
+    build faster are being weaponised. Expect stricter email provenance checks and AI-output watermarking
+    regulation within the year.
+  </li>
+  <li>
+    <strong>MAUI Is Coming to Linux</strong> (Avalonia Preview) —
+    .NET MAUI will run on Linux via Avalonia Preview 1. For cross-platform desktop data-validation tooling,
+    this opens a new deployment target without a full rewrite.
+  </li>
+</ul>
+
+<h2>👀 What to Watch</h2>
+<ul>
+  <li>
+    <strong>Flash-MoE WebAssembly port</strong> — The repo already has a Metal backend. A WASM port
+    would enable in-browser LLM inference with no server — the ultimate privacy-preserving autocomplete
+    for data validation rules. Watch for community forks targeting WASM.
+  </li>
+  <li>
+    <strong>Manyana CRDT VCS adoption</strong> — If Bram Cohen ships a working Manyana client, it
+    could displace git for AI-heavy repos where branches diverge rapidly (e.g., LLM-generated code
+    experiments). Worth watching if you use git-based validation rule versioning.
+  </li>
+</ul>
+
+<p><em>— AI Digest, auto-generated for data-validation-web, March 23, 2026</em></p>
+</article>
+  <hr style="border-color:#1f2937;margin:2rem 0"/>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <p style="color:#4b5563;font-size:.75rem">Auto-generated &middot; March 23, 2026 &middot; 7:00 AM IST</p>
+    <a href="/daily-digest/" style="color:#60a5fa;font-size:.875rem">&larr; All posts</a>
+  </div>
+</main></body></html>

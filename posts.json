@@ -1,5 +1,14 @@
 [
   {
+    "slug": "2026-03-23-ai-digest",
+    "title": "AI Digest — March 23, 2026",
+    "category": "ai-digest",
+    "date": "March 23, 2026",
+    "excerpt": "Flash-MoE runs 397B model on MacBook at 4.4 tok/s; useRuleExplainer composable pattern; Manyana CRDT version control.",
+    "url": "/daily-digest/ai-digest/2026-03-23-ai-digest.html",
+    "video_url": ""
+  },
+  {
     "slug": "2026-03-19-war-watch",
     "title": "War Watch — India's Daily Brief: March 19, 2026",
     "category": "war-watch",
